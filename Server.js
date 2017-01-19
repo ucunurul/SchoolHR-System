@@ -93,6 +93,16 @@ app.get('/hello', function(req, res){
     res.send('<h2>No more hello world!</h2>')
 })
 
+// Get student data
+app.get('/getStudent', function(req, res){
+         db.collection('student', function(err, collection) {
+             collection.find().toArray(function(err, items) {
+                 console.log(items);
+                 res.send(items);
+             });
+         });
+     });
+
 // Post student data
 app.post('/addStudent', (req, res) => {
   db.collection('student').save(req.body, (err, result) => {
