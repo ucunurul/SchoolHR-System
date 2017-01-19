@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
 var db;
 // init mongodb
 var Mongoc = require("mongodb").MongoClient;
-var mongourl = 'mongodb://localhost:27017/SchoolDB';
+var mongourl = 'mongodb://192.168.100.36:27017/SchoolDB';
 Mongoc.connect(mongourl, function(err, database){
     if(err){
         console.log("Mongo is not connected!");
@@ -32,7 +32,7 @@ Mongoc.connect(mongourl, function(err, database){
         db = database;
 
         app.listen(8080, function(){
-            console.log("Listening on localhost:8080");
+            console.log("Listening on Kiki's computer :8080");
         })
     }
 })
