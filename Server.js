@@ -1,5 +1,6 @@
 var exp = require("express");
 var app = exp();
+var router = exp.Router();
 
 //Store all HTML files in view folder.
 app.use(exp.static(__dirname + '/View'));
@@ -96,8 +97,8 @@ app.get('/hello', function(req, res){
 app.post('/addStudent', (req, res) => {
   db.collection('student').save(req.body, (err, result) => {
     if (err) return console.log(err)
-
-    console.log('Saved to database!')
+    console.log(req.body)
+    // console.log('Saved to database!')
     res.redirect('/')
   })
 })
