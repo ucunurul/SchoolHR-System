@@ -7,8 +7,6 @@ var assert = require ('assert');
 app.use(exp.static(__dirname + '/View'));
 //Store all JS and CSS in Scripts folder.
 app.use("/public",exp.static("public"));
-//app.use(exp.static(__dirname + '/public'));
-
 
 var path = require('path');
 
@@ -146,12 +144,12 @@ app.post('/addStudent', function(req, res, next){
     // var hasil = json.body
 
     var newStudent = {
-        studentid:req.body.studentid,
-        name:req.body.name,
-        class:req.body.class,
-        age:req.body.age,
-        gender:req.body.gender,
-        address:req.body.address
+        StudentId:req.body.StudentId,
+        Name:req.body.Name,
+        Class:req.body.Class,
+        Age:req.body.Age,
+        Gender:req.body.Gender,
+        Address:req.body.Address
 
     };
     
@@ -160,6 +158,7 @@ app.post('/addStudent', function(req, res, next){
         console.log('New student inserted');        
     });
     res.json(newStudent);
+    res.redirect('/student.html')
 })
 
 app.get("/user/:name", function(req,res){
@@ -176,7 +175,7 @@ app.get("/user/:name", function(req,res){
 })
 
 
-app.post('/name', function(req, res){
-    var name = req.body.name;
-    res.send('hello ' +name)
-})
+// app.post('/name', function(req, res){
+//     var name = req.body.name;
+//     res.send('hello ' +name)
+// })
