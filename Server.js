@@ -102,10 +102,10 @@ app.get('/studentlist'), function(req, res){
 }
 
 
-// Test page view of Hello
-app.get('/hello', function(req, res){
-    res.send('<h2>No more hello world!</h2>')
-})
+// // Test page view of Hello
+// app.get('/hello', function(req, res){
+//     res.send('<h2>No more hello world!</h2>')
+// })
 
 // Get student data
 app.get('/getStudent', function(req, res){
@@ -161,18 +161,43 @@ app.post('/addStudent', function(req, res, next){
     res.redirect('/student.html')
 })
 
-app.get("/user/:name", function(req,res){
-    var name = req.params.name;
-    var names = db.collection('user');
-    names.insert({name: name}, function(err, result){
-        if(err){
-            res.send("error inserting new name into db");
-        }
-        else{
-            res.send("Already saved!")
-        }
-    })
+app.post('/deleteStudent', function(req, res, next){
+    var id = req.body.StudentId
 })
+
+app.put('/updateStudent', function (req, res, next){
+    var updStudent={
+        StudentId:req.body.StudentId,
+        Name:req.body.Name,
+        Class:req.body.Class,
+        Age:req.body.Age,
+        Gender:req.body.Gender,
+        Address:req.body.Address
+    };
+    var id = req.body.id;
+    db.collection('student').updateOne({_id:objectid(id) },{$set:updStudent},function(err, result) {
+        assert.equal(null, err);
+        console.log('Student Updated!');
+    });
+
+    // optional response
+    res.json({message: 'Succesfully Student Updated.'})
+})
+
+/*Not Used*/
+
+// app.get("/user/:name", function(req,res){
+//     var name = req.params.name;
+//     var names = db.collection('user');
+//     names.insert({name: name}, function(err, result){
+//         if(err){
+//             res.send("error inserting new name into db");
+//         }
+//         else{
+//             res.send("Already saved!")
+//         }
+//     })
+// })
 
 
 // app.post('/name', function(req, res){
