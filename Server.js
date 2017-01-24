@@ -126,6 +126,14 @@ app.get('/getStudent', function(req, res){
         //  });
      });
 
+app.get('/getTeacher', function(req, res){
+         db.collection('teacher', function(err, collection) {
+             collection.find().toArray(function(err, items) {
+                 console.log(items);
+                 res.send(items);
+             });
+         });
+     });
 // Post student data
 // Version 1
 // app.post('/addStudent', (req, res) => {
