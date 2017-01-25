@@ -51,17 +51,6 @@ router.get('/', function(req, res, next){
     res.render('Server');
 });
 
-// index navigation
-// app.get('/', function(req, res){
-
-//       res.sendFile(path.join(__dirname + '/index.html'));
-
-//     // res.json({
-//     //     name: 'ucu',
-//     //     age: 21
-//     // })
-// });
-
 // student navigation
 app.get('/student', function(req, res){
 
@@ -102,11 +91,6 @@ app.get('/studentlist'), function(req, res){
 }
 
 
-// // Test page view of Hello
-// app.get('/hello', function(req, res){
-//     res.send('<h2>No more hello world!</h2>')
-// })
-
 // Get student data
 app.get('/getStudent', function(req, res){
     var student = db.collection('student');
@@ -134,7 +118,8 @@ app.get('/getTeacher', function(req, res){
              });
          });
      });
-// Post student data
+
+/* Post student data */
 // Version 1
 // app.post('/addStudent', (req, res) => {
 //   db.collection('student').save(req.body, (err, result) => {
@@ -148,8 +133,6 @@ app.get('/getTeacher', function(req, res){
 // Version 2
 app.post('/addStudent', function(req, res, next){
     console.log('Processing');
-
-    // var hasil = json.body
 
     var newStudent = {
         StudentId:req.body.StudentId,
@@ -169,9 +152,21 @@ app.post('/addStudent', function(req, res, next){
     res.redirect('/student.html')
 })
 
-app.post('/deleteStudent', function(req, res, next){
-    var id = req.body.StudentId
+// Delete function
+app.delete('/deleteStudent', (req, res) => {
+  db.collection('student').findOneAndDelete(
+      {
+          name: req.body.name
+      }, 
+  (err, result) => {
+    if (err) return res.send(500, err)
+    res.send('Successfully Deleted')
+  })
 })
+
+// app.post('/deleteStudent', function(req, res, next){
+//     var id = req.body.StudentId
+// })
 
 app.put('/updateStudent', function (req, res, next){
     var updStudent={
@@ -191,24 +186,3 @@ app.put('/updateStudent', function (req, res, next){
     // optional response
     res.json({message: 'Succesfully Student Updated.'})
 })
-
-/*Not Used*/
-
-// app.get("/user/:name", function(req,res){
-//     var name = req.params.name;
-//     var names = db.collection('user');
-//     names.insert({name: name}, function(err, result){
-//         if(err){
-//             res.send("error inserting new name into db");
-//         }
-//         else{
-//             res.send("Already saved!")
-//         }
-//     })
-// })
-
-
-// app.post('/name', function(req, res){
-//     var name = req.body.name;
-//     res.send('hello ' +name)
-// })

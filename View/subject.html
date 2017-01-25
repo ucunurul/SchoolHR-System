@@ -23,9 +23,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="student.html">Student</a></li>
+                    <li><a href="student.html">Student</a></li>
                     <li><a href="teacher.html">Teachers</a></li>
-                    <li><a href="subject.html">Subject</a></li>
+                    <li  class="active"><a href="subject.html">Subject</a></li>
                     <li><a href="staff.html">Staff</a></li>
                     <li><a href="salary.html">Salary</a></li>
                 </ul>
@@ -73,7 +73,7 @@
                 $.each(product, function (i, value) {
                         //$("#inventorylist").add();
                         var stringRow = "<tr> <td>" + (i + 1) + "</td>" +
-                        "<td>" + value.Id + "</td>" +
+                        "<td>" + value.StudentId + "</td>" +
                         "<td>" + value.Name + "</td>" +
                         "<td>" + value.Class + "</td>" +
                         "<td>" + value.Age + "</td>" +
@@ -94,7 +94,7 @@
 
             $.each(product, function (i, value) {                
                 var stringRow = "<tr> <td>" + (i + 1) + "</td>" +
-                "<td>" + value.Id + "</td>" +
+                "<td>" + value.StudentId + "</td>" +
                 "<td>" + value.Name + "</td>" +
                 "<td>" + value.Class + "</td>" +
                 "<td>" + value.Age + "</td>" +
@@ -108,8 +108,9 @@
         console.log(error)
     }  
 
-   
+    
     // $('#cek').click(function (event) {
+        
     //      var table = document.getElementById('StudentList');
     //     for (var r = 0, n = table.rows.length; r < n; r++) {
     //         for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
