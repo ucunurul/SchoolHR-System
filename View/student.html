@@ -80,6 +80,7 @@
                         "<td>" + value.Age + "</td>" +
                         "<td>" + value.Gender + "</td>" +
                         "<td>" + value.Address + "</td>" +
+                        "<td>" + "<button onclick=getStudent('"+value._id+"')>edit</button>"+ "</td>" +
                         "<td>" + "<button onclick=deleteStudent('"+value._id+"')>delete</button>"+ "</td></tr>";
                         $("#StudentList").append(stringRow);
                         
@@ -133,6 +134,38 @@ function deleteStudent(idStudent){
         }),
         success:(function (result) {            
             console.log("Successfuly delete...");
+            load();
+        }),
+        error:(function (xhr, result, error) {
+            console.log(error);
+        })
+
+        })
+        
+    }
+
+    function updateStudent(idStudent){
+    console.log("student data is updated")
+    console.log(idStudent)
+
+    var valueID ={
+        _id : idStudent
+    };
+    console.log(valueID);
+
+    $.ajax({
+            url: 'http://localhost:8080/updateStudent',
+            data: valueID,
+            type: 'PUT',            
+            dataType: 'json',
+            crossDomain: true,
+
+        always:(function (result) {
+            console.log("From server...");
+
+        }),
+        success:(function (result) {            
+            console.log("Successfuly updated...");
             load();
         }),
         error:(function (xhr, result, error) {

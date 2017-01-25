@@ -183,6 +183,29 @@ app.delete('/deleteTeacher', (req, res) => {
 res.json({ message: 'Successfully deleted teacher data' });
 })
 
+app.put('/updateStudents',function(req,res, next){
+    var id = req.body.id;
+    var st = db.collection('student');
+    st.findAndModify({_id: objectid(id)},[['_id','asc']],
+      {$set:{
+      StudentId: req.body.StudentId, 
+      Name: req.body.Name, 
+      Class: req.body.Class, 
+      Age: req.body.Age, 
+      Gender: req.body.Gender, 
+      Address: req.body.Address}},
+    function(err, result){
+        if(err)
+        {
+            res.send(500,err)
+        }        
+        else
+        {
+            res.send(200,{success:true , st : result});
+            res.end();
+        }})
+    })
+
 app.put('/updateStudent', function (req, res, next){
     var updStudent={
         StudentId:req.body.StudentId,
@@ -194,10 +217,31 @@ app.put('/updateStudent', function (req, res, next){
     };
     var id = req.body.id;
     db.collection('student').updateOne({_id:objectid(id) },{$set:updStudent},function(err, result) {
-        assert.equal(null, err);
+        // assert.equal(null, err);
         console.log('Student Updated!');
     });
 
+    // db.collection('student').updateOne({_id:objectid(id) },{$set:updStudent},function(err, result) {
+    //     assert.equal(null, err);
+    //     console.log('Student Updated!');
+    // });
+
     // optional response
     res.json({message: 'Succesfully Student Updated.'})
+})
+
+app.put('/api/students/edit',function(req,res){
+ var id = req.body.id;
+ var st = db.collection('students');
+ st.findAndModify({_id: ObjectId(id)},[['_id','asc']],
+  {$set:{nis: req.body.nis, nama : req.body.nama,kelas: req.body.kelas, jenisKelamin: req.body.jk}},
+ function(err, result){
+   if(err){
+    res.send(500,err)
+   }else{
+    res.send(200,{success:true , st : result});
+    res.end();
+   }
+ }
+ )
 })
