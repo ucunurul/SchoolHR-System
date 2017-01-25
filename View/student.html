@@ -56,7 +56,10 @@
     </div>
 
 <script type="application/javascript">
-    $(document).ready(function () {
+    $(document).ready(load);
+    
+    function load() {
+         $("#StudentList").empty();
     try{
         $.ajax({
                     url: 'http://localhost:8080/getStudent',
@@ -76,7 +79,8 @@
                         "<td>" + value.Class + "</td>" +
                         "<td>" + value.Age + "</td>" +
                         "<td>" + value.Gender + "</td>" +
-                        "<td>" + value.Address + "</td> </tr>";
+                        "<td>" + value.Address + "</td>" +
+                        "<td>" + "<button onclick=deleteStudent('"+value._id+"')>delete</button>"+ "</td></tr>";
                         $("#StudentList").append(stringRow);
                         
                     });
@@ -104,7 +108,41 @@
     }catch(error){
         console.log(error)
     }   
-});
+}
+
+
+function deleteStudent(idStudent){
+    console.log("student data is deleted")
+    console.log(idStudent)
+
+    var valueID ={
+        _id : idStudent
+    };
+    console.log(valueID);
+
+    $.ajax({
+            url: 'http://localhost:8080/deleteStudent',
+            data: valueID,
+            type: 'DELETE',            
+            dataType: 'json',
+            crossDomain: true,
+
+        always:(function (result) {
+            console.log("From server...");
+
+        }),
+        success:(function (result) {            
+            console.log("Successfuly delete...");
+            load();
+        }),
+        error:(function (xhr, result, error) {
+            console.log(error);
+        })
+
+        })
+        
+    }
+    
 
 </script>
 </body>

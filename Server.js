@@ -29,6 +29,7 @@ var db;
 // init mongodb
 var Mongoc = require("mongodb").MongoClient;
 // var mongourl = 'mongodb://192.168.100.36:27017/SchoolDB';
+var objectid = require('mongodb').ObjectID;
 var mongourl = 'mongodb://localhost:27017/SchoolDB';
 Mongoc.connect(mongourl, function(err, database){
     if(err){
@@ -152,21 +153,35 @@ app.post('/addStudent', function(req, res, next){
     res.redirect('/student.html')
 })
 
-// Delete function
+//delete student
 app.delete('/deleteStudent', (req, res) => {
-  db.collection('student').findOneAndDelete(
-      {
-          name: req.body.name
-      }, 
-  (err, result) => {
-    if (err) return res.send(500, err)
-    res.send('Successfully Deleted')
-  })
+ var id = req.body._id;
+    // Mongoc.connect(mongoUrl, function(err, db){
+    //       assert.equal(null, err);
+        db.collection('student').deleteOne({_id:objectid(id)}, function(err, result){
+            assert.equal(null, err);
+            console.log('Data student Deleted');
+            console.log(req.body.id)
+            // db.close();
+        // });
+    });
+res.json({ message: 'Successfully deleted student data' });
 })
 
-// app.post('/deleteStudent', function(req, res, next){
-//     var id = req.body.StudentId
-// })
+//delete teacher
+app.delete('/deleteTeacher', (req, res) => {
+ var id = req.body._id;
+    // Mongoc.connect(mongoUrl, function(err, db){
+    //       assert.equal(null, err);
+        db.collection('teacher').deleteOne({_id:objectid(id)}, function(err, result){
+            assert.equal(null, err);
+            console.log('Data teacher is Deleted');
+            console.log(req.body.id)
+            // db.close();
+        // });
+    });
+res.json({ message: 'Successfully deleted teacher data' });
+})
 
 app.put('/updateStudent', function (req, res, next){
     var updStudent={
