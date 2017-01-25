@@ -31,6 +31,7 @@ var db;
 // init mongodb
 var Mongoc = require("mongodb").MongoClient;
 // var mongourl = 'mongodb://192.168.100.36:27017/SchoolDB';
+var objectid = require('mongodb').ObjectID;
 var mongourl = 'mongodb://localhost:27017/SchoolDB';
 Mongoc.connect(mongourl, function(err, database){
     if(err){
@@ -188,3 +189,21 @@ app.post('/name', function(req, res){
     var name = req.body.name;
     res.send('hello ' +name)
 })
+
+
+
+//delete student
+app.delete('/deleteStudent', (req, res) => {
+ var id = req.body._id;
+    // Mongoc.connect(mongoUrl, function(err, db){
+    //       assert.equal(null, err);
+        db.collection('student').deleteOne({_id:objectid(id)}, function(err, result){
+            assert.equal(null, err);
+            console.log('Data student Deleted');
+            console.log(req.body.id)
+            // db.close();
+        // });
+    });
+res.json({ message: 'Successfully deleted student data' });
+})
+
