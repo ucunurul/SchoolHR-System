@@ -7,8 +7,6 @@ var assert = require ('assert');
 app.use(exp.static(__dirname + '/View'));
 //Store all JS and CSS in Scripts folder.
 app.use("/public",exp.static("public"));
-//app.use(exp.static(__dirname + '/public'));
-
 
 var path = require('path');
 
@@ -54,17 +52,6 @@ router.get('/', function(req, res, next){
     res.render('Server');
 });
 
-// index navigation
-// app.get('/', function(req, res){
-
-//       res.sendFile(path.join(__dirname + '/index.html'));
-
-//     // res.json({
-//     //     name: 'ucu',
-//     //     age: 21
-//     // })
-// });
-
 // student navigation
 app.get('/student', function(req, res){
 
@@ -105,11 +92,6 @@ app.get('/studentlist'), function(req, res){
 }
 
 
-// Test page view of Hello
-app.get('/hello', function(req, res){
-    res.send('<h2>No more hello world!</h2>')
-})
-
 // Get student data
 app.get('/getStudent', function(req, res){
     var student = db.collection('student');
@@ -137,7 +119,8 @@ app.get('/getTeacher', function(req, res){
              });
          });
      });
-// Post student data
+
+/* Post student data */
 // Version 1
 // app.post('/addStudent', (req, res) => {
 //   db.collection('student').save(req.body, (err, result) => {
@@ -152,15 +135,13 @@ app.get('/getTeacher', function(req, res){
 app.post('/addStudent', function(req, res, next){
     console.log('Processing');
 
-    // var hasil = json.body
-
     var newStudent = {
-        studentid:req.body.studentid,
-        name:req.body.name,
-        class:req.body.class,
-        age:req.body.age,
-        gender:req.body.gender,
-        address:req.body.address
+        StudentId:req.body.StudentId,
+        Name:req.body.Name,
+        Class:req.body.Class,
+        Age:req.body.Age,
+        Gender:req.body.Gender,
+        Address:req.body.Address
 
     };
     
@@ -169,28 +150,8 @@ app.post('/addStudent', function(req, res, next){
         console.log('New student inserted');        
     });
     res.json(newStudent);
+    res.redirect('/student.html')
 })
-
-app.get("/user/:name", function(req,res){
-    var name = req.params.name;
-    var names = db.collection('user');
-    names.insert({name: name}, function(err, result){
-        if(err){
-            res.send("error inserting new name into db");
-        }
-        else{
-            res.send("Already saved!")
-        }
-    })
-})
-
-
-app.post('/name', function(req, res){
-    var name = req.body.name;
-    res.send('hello ' +name)
-})
-
-
 
 //delete student
 app.delete('/deleteStudent', (req, res) => {
@@ -222,3 +183,21 @@ app.delete('/deleteTeacher', (req, res) => {
 res.json({ message: 'Successfully deleted teacher data' });
 })
 
+app.put('/updateStudent', function (req, res, next){
+    var updStudent={
+        StudentId:req.body.StudentId,
+        Name:req.body.Name,
+        Class:req.body.Class,
+        Age:req.body.Age,
+        Gender:req.body.Gender,
+        Address:req.body.Address
+    };
+    var id = req.body.id;
+    db.collection('student').updateOne({_id:objectid(id) },{$set:updStudent},function(err, result) {
+        assert.equal(null, err);
+        console.log('Student Updated!');
+    });
+
+    // optional response
+    res.json({message: 'Succesfully Student Updated.'})
+})
