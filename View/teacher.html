@@ -57,7 +57,10 @@
         </div>
     </div>
 <script type="application/javascript">
-    $(document).ready(function () {
+    $(document).ready(loadTeachers)
+    
+    function loadTeachers() {
+        $("#TeacherList").empty();
     try{
         $.ajax({
                     url: 'http://localhost:8080/getTeacher',
@@ -78,11 +81,10 @@
                         "<td>" + value.yearJoined + "</td>" +
                         "<td>" + value.subject + "</td>" +
                         "<td>" + value.age + "</td>" +
-                        "<td>" + value.empType + "</td> </tr>";
-                        $("#TeacherList").append(stringRow);
-                        
+                        "<td>" + value.empType + "</td>" +
+                        "<td>" + "<button onclick=deleteTeacher('"+value._id+"')>delete</button>"+ "</td></tr>";
+                        $("#TeacherList").append(stringRow);          
                     });
-
                 }),
         error:(function (result) {
             console.log("the result if error");
@@ -107,8 +109,41 @@
     }catch(error){
         console.log(error)
     }   
-});
+};
 
+
+function deleteTeacher(idTeacher){
+    console.log("Teacher data is deleted")
+    console.log(idTeacher)
+
+    var valueID ={
+        _id : idTeacher
+    };
+    console.log(valueID);
+
+    $.ajax({
+            url: 'http://localhost:8080/deleteTeacher',
+            data: valueID,
+            type: 'DELETE',            
+            dataType: 'json',
+            crossDomain: true,
+
+        always:(function (result) {
+            console.log("From server...");
+
+        }),
+        success:(function (result) {            
+            console.log("Successfuly delete...");
+            loadTeachers();
+        }),
+        error:(function (xhr, result, error) {
+            console.log(error);
+        })
+
+        })
+        
+    }
+    
 </script>
 </body>
 </html>

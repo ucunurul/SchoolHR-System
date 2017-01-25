@@ -207,3 +207,18 @@ app.delete('/deleteStudent', (req, res) => {
 res.json({ message: 'Successfully deleted student data' });
 })
 
+//delete teacher
+app.delete('/deleteTeacher', (req, res) => {
+ var id = req.body._id;
+    // Mongoc.connect(mongoUrl, function(err, db){
+    //       assert.equal(null, err);
+        db.collection('teacher').deleteOne({_id:objectid(id)}, function(err, result){
+            assert.equal(null, err);
+            console.log('Data teacher is Deleted');
+            console.log(req.body.id)
+            // db.close();
+        // });
+    });
+res.json({ message: 'Successfully deleted teacher data' });
+})
+
